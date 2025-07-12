@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HSK</title>
+  <link rel="icon" type="image/png" href="images/hsklogo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #2f0f69, #27095f);
+      --card-bg: #1c1c1c;
+      --text-color: #f5f5f5;
+      --subtext-color: #bbb;
+      --icon-bg: #2c2c2c;
+      --partner-bg: rgba(255, 255, 255, 0.05);
+      --partner-hover: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      color: var(--text-color);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .background-blobs {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      max-width: 500px;
+      width: 100%;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      animation: fadeInUp 0.7s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .avatar {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      margin-bottom: 20px;
+      border: 4px solid #444;
+      transition: transform 0.5s ease, box-shadow 0.3s ease;
+    }
+
+    .avatar:hover {
+      transform: rotate3d(1, 1, 0, 15deg) scale(1.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 { margin: 10px 0 5px; font-size: 26px; }
+    p { font-size: 16px; color: var(--subtext-color); word-break: break-word; }
+
+    .social-icons {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      background: var(--icon-bg);
+      border-radius: 50%;
+      width: 48px; height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.2) translateY(-4px);
+    }
+
+    .social-icons img {
+      width: 24px; height: 24px;
+    }
+
+    .partners {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .partner-button {
+      background: var(--partner-bg);
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 320px;
+      justify-content: flex-start;
+      gap: 12px;
+      transition: background 0.3s, transform 0.2s;
+      position: relative;
+    }
+
+    .partner-button:hover {
+      background: var(--partner-hover);
+      transform: scale(1.02);
+    }
+
+    .partner-button img {
+      height: 32px;
+      width: auto;
+    }
+
+    .partner-button::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-color);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+
+    .partner-button:hover::after {
+      opacity: 1;
+    }
+
+    @media (max-width: 480px) {
+      .partner-button::after {
+        left: 50%;
+        top: 100%;
+        transform: translate(-50%, 8px);
+        margin-left: 0;
+      }
+    }
+
+    .contact-button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.08);
+      color: var(--text-color);
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 12px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .contact-button:hover {
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.05);
+    }
+  
+    .social-icons a:hover img[alt="YouTube"] { background: #FF0000; }
+    .social-icons a:hover img[alt="Twitch"] { background: #9146FF; }
+    .social-icons a:hover img[alt="Instagram"] {
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    }
+    .social-icons a img {
+      border-radius: 50%;
+      padding: 10px;
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+    .badge {
+      background-color: #dc2626;
+      color: white;
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+    .logo-background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .floating-logo {
+      position: absolute;
+      width: 200px;
+      opacity: 0.05;
+      filter: blur(8px);
+      animation: floatLogo 30s ease-in-out infinite;
+    }
+
+    .floating-logo:nth-child(1) {
+      top: 10%; left: 20%; animation-delay: 0s;
+    }
+    .floating-logo:nth-child(2) {
+      top: 60%; left: 70%; animation-delay: 5s;
+    }
+    .floating-logo:nth-child(3) {
+      top: 80%; left: 30%; animation-delay: 10s;
+    }
+    .floating-logo:nth-child(4) {
+      top: 30%; left: 80%; animation-delay: 15s;
+    }
+
+    @keyframes floatLogo {
+      0%   { transform: translate(0px, 0px) rotate(0deg); }
+      50%  { transform: translate(40px, 60px) rotate(20deg); }
+      100% { transform: translate(0px, 0px) rotate(0deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-background">
+    <img src="images/hsklogo.png" class="floating-logo" />
+    <img src="images/hsklogo.png" class="floating-logo" />
+    <img src="images/hsklogo.png" class="floating-logo" />
+    <img src="images/hsklogo.png" class="floating-logo" />
+  </div>
+
+  <div class="card">
+    <img class="avatar" src="images/hsklogo.png" alt="hsk">
+    <h1>Hesiakk</h1>
+    <p>Biznes: hesiak.kontakt@gmail.com</p>
+
+    <div class="social-icons">
+      <a href="https://twitch.tv/hesiakk" target="_blank"><img src="images/twitch-icon.png" alt="Twitch" /></a>
+      <a href="https://youtube.com/@hesiakk" target="_blank"><img src="images/youtube-icon.png" alt="YouTube" /></a>
+      <a href="https://instagram.com/hesiakk" target="_blank"><img src="images/instagram-icon.png" alt="Instagram" /></a>
+    </div>
+
+    <div class="partners">
+      <a class="partner-button" href="https://discord.gg/Wbb9s8WsRa" target="_blank" data-tooltip="HSK Preset"><img src="images/hsklogo.png" alt="HSK" />HSK Preset</a>
+      <a class="partner-button" href="https://discord.gg/Wbb9s8WsRa" target="_blank" data-tooltip="Dołącz do mojego Discorda"><img src="images/discord-icon.png" alt="Discord" />Discord</a>
+    </div>
+
+    <a class="contact-button">Created by Hesiakk</a>
+  </div>
+
+  <script>
+  </script>
+</body>
+</html>
